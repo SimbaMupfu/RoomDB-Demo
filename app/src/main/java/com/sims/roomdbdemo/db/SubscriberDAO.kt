@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface SubscribeDAO {
+interface SubscriberDAO {
 
     @Insert
     suspend fun insertSubscriber(subscriber: Subscriber): Long
