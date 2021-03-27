@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 class SubscriberViewModel(private val repository: SubscriberRepository): ViewModel(), Observable {
 
     val subscribers = repository.subscribers
+    private var isUpdateOrDelete = false
+    private lateinit var subscriberToUpdateOrDelete: Subscriber
 
     @Bindable
     val inputName = MutableLiveData<String>()
@@ -54,6 +56,15 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
 
     fun clearAll() = viewModelScope.launch {
         repository.deleteAll()
+    }
+
+    fun initUpdateAndDelete(subscriber: Subscriber){
+        inputName.value = subscriber.name
+        inputEmail.value = subscriber.email
+        isUpdateOrDelete = true
+        subscriberToUpdateOrDelete = subscriber
+        saveOrUpdateButtonText.value = "Update"
+        clearAllOrDeleteButtonText.value = "Delete"
     }
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {

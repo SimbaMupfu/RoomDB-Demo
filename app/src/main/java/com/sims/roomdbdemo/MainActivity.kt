@@ -39,13 +39,14 @@ class MainActivity : AppCompatActivity() {
     private fun displaySubscribersList(){
         subscriberViewModel.subscribers.observe(this, Observer {
             Log.i("MyTag", it.toString())
-            binding.subscriberRecyclerView.adapter = SubscriberRecyclerViewAdapter(it, {
-                    selectedItem:Subscriber->listItemClicked(selectedItem)
-            })
+            binding.subscriberRecyclerView.adapter = SubscriberRecyclerViewAdapter(it) { selectedItem: Subscriber ->
+                listItemClicked(selectedItem)
+            }
         })
     }
 
     private fun listItemClicked(subscriber: Subscriber){
         Toast.makeText(this, "Selected name is ${subscriber.name}", Toast.LENGTH_SHORT).show()
+        subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }
