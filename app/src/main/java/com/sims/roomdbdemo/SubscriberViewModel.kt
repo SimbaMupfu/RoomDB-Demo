@@ -2,6 +2,7 @@ package com.sims.roomdbdemo
 
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,10 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
     val saveOrUpdateButtonText = MutableLiveData<String>()
     @Bindable
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
+
+    private var statusMessage = MutableLiveData<Event<String>>()
+    val message: LiveData<Event<String>>
+        get() = statusMessage
 
     init {
         saveOrUpdateButtonText.value = "Save"
@@ -55,6 +60,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
 
     fun insert(subscriber: Subscriber) = viewModelScope.launch{
             repository.insert(subscriber)
+        statusMessage.value = Event("Subscriber inserted successfully")
         }
 
     fun update(subscriber: Subscriber) = viewModelScope.launch {
@@ -64,6 +70,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
         isUpdateOrDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "Clear All"
+        statusMessage.value = Event("Subscriber updated successfully")
     }
 
     fun delete(subscriber: Subscriber) = viewModelScope.launch {
@@ -73,10 +80,12 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
         isUpdateOrDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "Clear All"
+        statusMessage.value = Event("Subscriber deleted successfully")
     }
 
     fun clearAll() = viewModelScope.launch {
         repository.deleteAll()
+        statusMessage.value = Event("All subscribers deleted successfully")
     }
 
     fun initUpdateAndDelete(subscriber: Subscriber){
