@@ -6,16 +6,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sims.roomdbdemo.databinding.ListItemBinding
 import com.sims.roomdbdemo.db.Subscriber
+import com.sims.roomdbdemo.generated.callback.OnClickListener
 
-class SubscriberRecyclerViewAdapter(private val subscribersList: List<Subscriber>): RecyclerView.Adapter<MyViewHolder>() {
+class SubscriberRecyclerViewAdapter(
+    private val subscribersList: List<Subscriber>,
+    private val clickListener: (Subscriber) -> Unit
+) :
+    RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: ListItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, parent,false)
+        val binding: ListItemBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.list_item, parent, false)
         return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(subscribersList[position])
+        holder.bind(subscribersList[position], clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -23,10 +29,13 @@ class SubscriberRecyclerViewAdapter(private val subscribersList: List<Subscriber
     }
 }
 
-class MyViewHolder(val binding: ListItemBinding): RecyclerView.ViewHolder(binding.root){
+class MyViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(subscriber: Subscriber){
+    fun bind(subscriber: Subscriber, clickListener: (Subscriber) -> Unit) {
         binding.nameTextView.text = subscriber.name
         binding.emailTextView.text = subscriber.email
+        binding.listItemLayout.setOnClickListener {
+            clickListener(subscriber)
+        }
     }
 }
