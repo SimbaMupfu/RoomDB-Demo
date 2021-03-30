@@ -10,7 +10,7 @@ import com.sims.roomdbdemo.db.Subscriber
 import com.sims.roomdbdemo.db.SubscriberRepository
 import kotlinx.coroutines.launch
 
-class SubscriberViewModel(private val repository: SubscriberRepository): ViewModel(), Observable {
+class SubscriberViewModel(private val repository: SubscriberRepository) : ViewModel(), Observable {
 
     val subscribers = repository.subscribers
     private var isUpdateOrDelete = false
@@ -18,10 +18,13 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
 
     @Bindable
     val inputName = MutableLiveData<String>()
+
     @Bindable
     val inputEmail = MutableLiveData<String>()
+
     @Bindable
     val saveOrUpdateButtonText = MutableLiveData<String>()
+
     @Bindable
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
 
@@ -34,12 +37,12 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
         clearAllOrDeleteButtonText.value = "Clear All"
     }
 
-    fun saveOrUpdate(){
-        if(isUpdateOrDelete){
+    fun saveOrUpdate() {
+        if (isUpdateOrDelete) {
             subscriberToUpdateOrDelete.name = inputName.value!!
             subscriberToUpdateOrDelete.email = inputEmail.value!!
             update(subscriberToUpdateOrDelete)
-        }else{
+        } else {
             val name = inputName.value!!
             val email = inputEmail.value!!
 
@@ -49,26 +52,26 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
         }
     }
 
-    fun clearAllOrDelete(){
-        if (isUpdateOrDelete){
+    fun clearAllOrDelete() {
+        if (isUpdateOrDelete) {
             delete(subscriberToUpdateOrDelete)
-        }else{
+        } else {
             clearAll()
         }
 
     }
 
-    fun insert(subscriber: Subscriber) = viewModelScope.launch{
-            val newRowID = repository.insert(subscriber)
-        if(newRowID > -1){
+    private fun insert(subscriber: Subscriber) = viewModelScope.launch {
+        val newRowID = repository.insert(subscriber)
+        if (newRowID > -1) {
             statusMessage.value = Event("Subscriber inserted successfully $newRowID")
-        }else{
+        } else {
             statusMessage.value = Event("There was an error in inserting the new subscriber")
         }
 
-        }
+    }
 
-    fun update(subscriber: Subscriber) = viewModelScope.launch {
+    private fun update(subscriber: Subscriber) = viewModelScope.launch {
         repository.update(subscriber)
         inputName.value = null
         inputEmail.value = null
@@ -78,7 +81,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
         statusMessage.value = Event("Subscriber updated successfully")
     }
 
-    fun delete(subscriber: Subscriber) = viewModelScope.launch {
+    private fun delete(subscriber: Subscriber) = viewModelScope.launch {
         repository.delete(subscriber)
         inputName.value = null
         inputEmail.value = null
@@ -88,12 +91,12 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
         statusMessage.value = Event("Subscriber deleted successfully")
     }
 
-    fun clearAll() = viewModelScope.launch {
+    private fun clearAll() = viewModelScope.launch {
         repository.deleteAll()
         statusMessage.value = Event("All subscribers deleted successfully")
     }
 
-    fun initUpdateAndDelete(subscriber: Subscriber){
+    fun initUpdateAndDelete(subscriber: Subscriber) {
         inputName.value = subscriber.name
         inputEmail.value = subscriber.email
         isUpdateOrDelete = true
