@@ -9,10 +9,13 @@ import com.sims.roomdbdemo.db.Subscriber
 import com.sims.roomdbdemo.generated.callback.OnClickListener
 
 class SubscriberRecyclerViewAdapter(
-    private val subscribersList: List<Subscriber>,
     private val clickListener: (Subscriber) -> Unit
 ) :
     RecyclerView.Adapter<MyViewHolder>() {
+
+    private val subscribersList = ArrayList<Subscriber>()
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: ListItemBinding =
@@ -26,6 +29,11 @@ class SubscriberRecyclerViewAdapter(
 
     override fun getItemCount(): Int {
         return subscribersList.size
+    }
+
+    fun setList(subscribers: List<Subscriber>){
+        subscribersList.clear()
+        subscribersList.addAll(subscribers)
     }
 }
 

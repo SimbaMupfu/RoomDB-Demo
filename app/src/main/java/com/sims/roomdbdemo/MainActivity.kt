@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var subscriberViewModel: SubscriberViewModel
     private lateinit var subscriberViewModelFactory: SubscriberViewModelFactory
+
+    private lateinit var adapter: SubscriberRecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -25,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         val subscriberDAO = SubscriberDatabase.getInstance(applicationContext).subscriberDAO
         val repository = SubscriberRepository(subscriberDAO)
         subscriberViewModelFactory = SubscriberViewModelFactory(repository)
-        subscriberViewModel = ViewModelProvider(this, subscriberViewModelFactory).get(SubscriberViewModel::class.java)
+        subscriberViewModel =
+            ViewModelProvider(this, subscriberViewModelFactory).get(SubscriberViewModel::class.java)
         binding.mySubscriberViewModel = subscriberViewModel
         binding.lifecycleOwner = this
         subscriberViewModel.message.observe(this, Observer {
@@ -36,21 +39,24 @@ class MainActivity : AppCompatActivity() {
         initRecyclerView()
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         binding.subscriberRecyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = SubscriberRecyclerViewAdapter { selectedItem: Subscriber ->
+            listItemClicked(selectedItem)
+        }
+        binding.subscriberRecyclerView.adapter = adapter
         displaySubscribersList()
     }
 
-    private fun displaySubscribersList(){
+    private fun displaySubscribersList() {
         subscriberViewModel.subscribers.observe(this, Observer {
             Log.i("MyTag", it.toString())
-            binding.subscriberRecyclerView.adapter = SubscriberRecyclerViewAdapter(it) { selectedItem: Subscriber ->
-                listItemClicked(selectedItem)
-            }
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
         })
     }
 
-    private fun listItemClicked(subscriber: Subscriber){
+    private fun listItemClicked(subscriber: Subscriber) {
 //        Toast.makeText(this, "Selected name is ${subscriber.name}", Toast.LENGTH_SHORT).show()
         subscriberViewModel.initUpdateAndDelete(subscriber)
     }
