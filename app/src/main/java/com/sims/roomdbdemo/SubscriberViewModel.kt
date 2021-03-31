@@ -72,13 +72,17 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
     }
 
     private fun update(subscriber: Subscriber) = viewModelScope.launch {
-        repository.update(subscriber)
-        inputName.value = null
-        inputEmail.value = null
-        isUpdateOrDelete = false
-        saveOrUpdateButtonText.value = "Save"
-        clearAllOrDeleteButtonText.value = "Clear All"
-        statusMessage.value = Event("Subscriber updated successfully")
+        val numberOfRowsUpdated = repository.update(subscriber)
+        if(numberOfRowsUpdated > 0){
+            inputName.value = null
+            inputEmail.value = null
+            isUpdateOrDelete = false
+            saveOrUpdateButtonText.value = "Save"
+            clearAllOrDeleteButtonText.value = "Clear All"
+            statusMessage.value = Event("$numberOfRowsUpdated row(s) updated successfully")
+        }else{
+            statusMessage.value = Event("There was an error in updating the subscriber info")
+        }
     }
 
     private fun delete(subscriber: Subscriber) = viewModelScope.launch {

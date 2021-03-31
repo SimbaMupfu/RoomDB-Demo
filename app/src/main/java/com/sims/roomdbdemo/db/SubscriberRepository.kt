@@ -8,8 +8,8 @@ class SubscriberRepository(private val subscriberDAO: SubscriberDAO) {
         return subscriberDAO.insertSubscriber(subscriber)
     }
 
-    suspend fun update(subscriber: Subscriber){
-        subscriberDAO.updateSubscriber(subscriber)
+    suspend fun update(subscriber: Subscriber): Int{
+        return subscriberDAO.updateSubscriber(subscriber)
     }
 
     suspend fun delete(subscriber: Subscriber){
