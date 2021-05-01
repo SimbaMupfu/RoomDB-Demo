@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.MobileAds
 import com.sims.roomdbdemo.databinding.ActivityMainBinding
 import com.sims.roomdbdemo.db.Subscriber
 import com.sims.roomdbdemo.db.SubscriberDatabase
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: SubscriberRecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MobileAds.initialize(this)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val subscriberDAO = SubscriberDatabase.getInstance(applicationContext).subscriberDAO
