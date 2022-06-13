@@ -1,5 +1,5 @@
 pipeline{
-    agent any
+    agent { dockerfile true }
 
 //     export ANDROID_HOME=/Users/Jerry/Library/Android/sdk
 //     export PATH=$PATH:$ANDROID_HOME/tools
@@ -10,31 +10,28 @@ pipeline{
         // Stop the build early in case of compile or test failures
         skipStagesAfterUnstable()
       }
+    environment{
+        appName = 'room-db'
+    }
     stages{
         stage('Genesis'){
             steps{
                 sh 'if [ -f "local.properties" ] ; then rm "local.properties" ; fi'
-                sh 'touch local.properties'
-                sh 'echo "sdk.dir = /Users/4-sure/Library/Android/sdk" > local.properties'
-            }
-        }
-        stage('Compile'){
-            steps{
-                sh 'chmod +x gradlew'
-                sh './gradlew compileDebugSources'
+//                 sh 'touch local.properties'
+//                 sh 'echo "sdk.dir = /Users/4-sure/Library/Android/sdk" > local.properties'
             }
         }
         stage('Build'){
             steps{
                 git 'https://github.com/SimbaMupfu/RoomDB-Demo.git'
-                sh 'echo "Android SDK path ${ANDROID_SDK_ROOT}"'
+//                 sh 'echo "Android SDK path ${ANDROID_SDK_ROOT}"'
                 sh 'chmod +x gradlew'
-                sh 'yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true'
-                sh 'sdkmanager --version'
+//                 sh 'yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true'
+//                 sh 'sdkmanager --version'
 //                 sh 'sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"'
 //                 sh 'sdkmanager "platform-tools"'
 //                 sh 'sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"'
-//                 sh './gradlew clean assembleDebug'
+                sh './gradlew clean assembleDebug'
             }
         }
     }
