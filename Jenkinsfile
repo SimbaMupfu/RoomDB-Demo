@@ -13,7 +13,7 @@ pipeline{
     stages{
         stage('Genesis'){
             steps{
-                sh 'rm local.properties'
+                sh 'if [ -f local.properties ]; then rm local.properties fi'
                 sh 'touch local.properties'
                 sh 'echo sdk.dir = /Users/4-sure/Library/Android/sdk > local.properties'
             }
