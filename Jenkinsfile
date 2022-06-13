@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'android'}
+    agent any
 
 //     export ANDROID_HOME=/Users/Jerry/Library/Android/sdk
 //     export PATH=$PATH:$ANDROID_HOME/tools
