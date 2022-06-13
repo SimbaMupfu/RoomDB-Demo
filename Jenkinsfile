@@ -6,6 +6,10 @@ pipeline{
 //     export PATH=$PATH:$ANDROID_HOME/tools/bin
 //     export PATH=$PATH/:$ANDROID_HOME/platform-tools
 
+    options {
+        // Stop the build early in case of compile or test failures
+        skipStagesAfterUnstable()
+      }
     stages{
         stage('Compile'){
             steps{
