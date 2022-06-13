@@ -11,6 +11,13 @@ pipeline{
         skipStagesAfterUnstable()
       }
     stages{
+        stage('Genesis'){
+            steps{
+                sh 'rm local.properties'
+                sh 'touch local.properties'
+                sh 'echo sdk.dir = /Users/4-sure/Library/Android/sdk > local.properties'
+            }
+        }
         stage('Compile'){
             steps{
                 sh 'chmod +x gradlew'
