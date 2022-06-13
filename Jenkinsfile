@@ -13,7 +13,11 @@ pipeline{
                 sh 'echo "Android SDK path ${ANDROID_HOME}"'
                 sh 'chmod +x gradlew'
                 sh 'yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses || true'
-                sh './gradlew clean assembleDebug'
+                sh 'sdkmanager --version'
+//                 sh 'sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"'
+//                 sh 'sdkmanager "platform-tools"'
+//                 sh 'sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"'
+//                 sh './gradlew clean assembleDebug'
             }
         }
     }
