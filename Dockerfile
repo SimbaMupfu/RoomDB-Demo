@@ -1,6 +1,6 @@
 FROM openjdk:8
 
-USER Simba
+USER simba
 
 WORKDIR project/
 
