@@ -1,5 +1,7 @@
 FROM openjdk:8
 
+USER Simba
+
 WORKDIR project/
 
 # Install Build Essentials
