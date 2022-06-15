@@ -10,9 +10,6 @@ pipeline{
         // Stop the build early in case of compile or test failures
         skipStagesAfterUnstable()
       }
-    environment{
-        appName = 'room-db'
-    }
     stages{
 //         stage('Genesis'){
 //             steps{
