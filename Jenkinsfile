@@ -23,6 +23,7 @@ pipeline{
                 git 'https://github.com/SimbaMupfu/RoomDB-Demo.git'
                 sh 'echo "Android SDK path ${ANDROID_SDK_ROOT}"'
                 sh 'chmod +x gradlew'
+                sh 'chmod 755 ${ANDROID_SDK_ROOT}'
                 sh 'yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true'
                 sh 'sdkmanager --version'
 //                 sh 'sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"'
