@@ -21,6 +21,7 @@ pipeline{
         stage('Build'){
             steps{
                 git 'https://github.com/SimbaMupfu/RoomDB-Demo.git'
+                sh 'echo "java --version"'
                 sh 'echo "Android SDK path ${ANDROID_SDK_ROOT}"'
                 sh 'chmod +x gradlew'
 //                 sh 'chmod 755 ${ANDROID_SDK_ROOT}'
