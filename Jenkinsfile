@@ -25,7 +25,7 @@ pipeline{
                 sh 'chmod +x gradlew'
 //                 sh 'chmod 755 ${ANDROID_SDK_ROOT}'
                 sh 'yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true'
-                sh 'bin/sdkmanager --version'
+                sh 'bin/sdkmanager --version ;'
 //                 sh 'sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"'
 //                 sh 'sdkmanager "platform-tools"'
 //                 sh 'sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"'
