@@ -25,12 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        MobileAds.initialize(this)
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
 
         val subscriberDAO = SubscriberDatabase.getInstance(applicationContext).subscriberDAO
         val repository = SubscriberRepository(subscriberDAO)
