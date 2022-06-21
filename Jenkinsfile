@@ -31,6 +31,7 @@ pipeline{
 //                 sh 'sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"'
 //                 sh 'sdkmanager "platform-tools"'
 //                 sh 'sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"'
+                sh 'rm -rf .gradle/configuration-cache'
                 sh './gradlew clean assembleDebug --stacktrace'
             }
         }
