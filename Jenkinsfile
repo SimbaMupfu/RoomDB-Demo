@@ -33,7 +33,7 @@ pipeline{
 //                 sh 'sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"'
                 sh 'rm -rf .gradle/configuration-cache'
                 sh 'echo "java --version"'
-                sh './gradlew clean assembleDebug --stacktrace'
+                sh './gradlew clean assembleDebug --info'
             }
         }
     }
